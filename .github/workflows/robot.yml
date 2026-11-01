@@ -1,5 +1,8 @@
-"name: L2 Gas Tracker
+name: L2 Gas Tracker
 on:
+  push:
+    paths:
+      - '.github/workflows/**'
   schedule:
     - cron: '29 08 * * 2,4,6'
   workflow_dispatch:
@@ -12,12 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Execute Sync
         run: |
-          if [ ""${{ github.event_name }}"" != ""workflow_dispatch"" ] && [ $((RANDOM % 100)) -ge 65 ]; then exit 0; fi
+          if [ "${{ github.event_name }}" == "schedule" ] && [ $((RANDOM % 100)) -ge 65 ]; then exit 0; fi
           sleep $((10 + RANDOM % 140))
-          git config user.name ""$(git log -1 --format='%an')""
-          git config user.email ""$(git log -1 --format='%ae')""
-          echo ""- [$(date -u '+%Y-%m-%d %H:%M UTC')] L2 Base Fee: 0.0$((1 + RANDOM % 9)) gwei | Priority: Nominal"" >> gas-snapshots.md
-          MSGS=(""chore: append l2 gas snapshot"" ""docs: log rollup fee metrics"" ""update: record gas baseline"")
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          echo "- [$(date -u '+%Y-%m-%d %H:%M UTC')] L2 Base Fee: 0.0$((1 + RANDOM % 9)) gwei | Priority: Nominal" >> gas-snapshots.md
+          MSGS=("chore: append l2 gas snapshot" "docs: log rollup fee metrics" "update: record gas baseline")
           git add gas-snapshots.md
-          git commit -m ""${MSGS[$((RANDOM % 3))]}""
-          git push"
+          git commit -m "${MSGS[$((RANDOM % 3))]}"
+          git pull --rebase origin main
+          git push
