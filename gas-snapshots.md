@@ -8,3 +8,4 @@
 - [2026-11-19 17:28 UTC] L2 Base Fee: 0.01 gwei | Priority: Nominal
 - [2026-11-21 16:17 UTC] L2 Base Fee: 0.04 gwei | Priority: Nominal
 - [2026-11-24 19:35 UTC] L2 Base Fee: 0.09 gwei | Priority: Nominal
+- [2026-11-26 18:30 UTC] L2 Base Fee: 0.02 gwei | Priority: Nominal
